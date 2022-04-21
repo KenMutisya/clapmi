@@ -1,64 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Technical Requirements
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
+### **The must**
 
-## About Laravel
+1. The initial data for users, posts and categories should be populated in the database via seeders.
+2. The application must be written in [PHP 8.0](https://www.php.net/releases/8.0/en.php)
+3. The application must use [Laravel Framework v.8](https://laravel.com/docs/8.x)
+4. The application must use the [Bearer Token](https://oauth.net/2/bearer-tokens/) authentication
+5. Database seeding must be implemented
+6. The code must be pushed into your personal repository which is available to us
+- We really want to see your individual commits
+- Please avoid big commits by breaking them down into smaller and descriptive commits, ideally containing code specific to a feature.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### **The recommended**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- The application should have database [Migrations](https://laravel.com/docs/8.x/migrations) and [Seeders](https://laravel.com/docs/8.x/seeding) files
+- Every table should have an [Eloquent](https://laravel.com/docs/8.x/eloquent) model and relationships (if applicable)
+- Every endpoint should have its own [controller](https://laravel.com/docs/8.x/controllers) and the methods of that controller must be linked to a route
+- Every route should be protected by a [middleware](https://laravel.com/docs/8.x/middleware)
+- The application should have [unit and feature tests](https://laravel.com/docs/8.x/testing)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### **Nice to have (bonus points)**
 
-## Learning Laravel
+- It would be nice to have a passing [Larastan](https://github.com/nunomaduro/larastan) LVL 8 rules for static code coverage
+- It would be nice to have implemented the [Laravel IDE Helper Generator](https://github.com/barryvdh/laravel-ide-helper)
+# Tasks:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Create a rest api for a content management that does the following as shown in the image above:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Posts**
+    - [ ] Create posts
+    - [ ] Delete posts
+    - [ ] Edit posts
+    - [ ] List posts
+- **Categories**
+    - [ ] Create a post category
+    - [ ] List all post categories
+    - [ ] Edit a post category
+    - [ ] Delete a post category
+- **Users**
+    - [ ] Create a user
+    - [ ] List all users
+    - [ ] Delete a userBearer Token authentication
+    - [ ] Edit a single user’s profile information
 
-## Laravel Sponsors
+| User Story                  | Definition                                                                                                                                                                                                                                                                                                                                                          |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| API prefix                  | The API routing prefix must follow the following convention: /api/v1/{route_name} For example: https://{{base_url}}/api/v1/user/login https://{{base_url}}/api/v1/posts                                                                                                                                                                                             |
+| Bearer Token authentication | A valid JWT token must be created to enable access to protected routes. This token must contain the user_uuid as a claim The issuer must be the API server domain The implementation must use an asymmetric key. Authentication must be carried out using JWT (Check out lcobucci laravel package for this, any other package of your choosing works too)           |
+| Middleware protection       | All API routes must be protected by a middleware to avoid injections attacks, Laravel provides a default middleware that needs to be implemented. In addition there must be another middleware to protect secure routes. This middleware need to validate the authenticity of the user token and allow user tokens on the User side.                                |
+| User endpoint (CRUD)        | This endpoint will handle the CRUD methods for the user, as well it will enable the following features: Login/logout forgot/reset password listing all user posts Keep in mind that this endpoint must affect only the current logged in user. User A cannot see or edit anything from User B                                                                       |
+| Forgot/reset password       | This endpoint will handle the forgot and restet password feature, this feature will do the following: The user will request a token to reset its password, if the email is valid a token will be generated. This token must be unique and there must be only one available token per user at the time. After a successful password update the token must be deleted |
+| Categories endpoint (CRUD)  | This endpoint will handle the CRUD methods for the categories. The initial data for these endpoints most be added into the DB via seeders.                                                                                                                                                                                                                          |
+| Posts endpoint (CRUD)       | This endpoint will handle the CRUD methods for the brands. The initial data for these endpoints most be added into the DB via seeders.                                                                                                                                                                                                                              |                                                                                                                                                                                                                                                                                                                                                                     |
+|                             |                                                                                                                                                                                                                                                                                                                                                                     |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+# Submitting Your Code
 
-### Premium Partners
+When you are finished with your testing code, please send a mail with the link to your submission to ‘**clapmiapp@gmail.com**’.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**You will be asked for your git repository and any comments/feedback**
