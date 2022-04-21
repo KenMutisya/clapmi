@@ -1,0 +1,17 @@
+openapi: "3.0.0"
+servers:
+  - url: https://clapmi.test/v1
+    description: Production server (uses live data)
+  - url: https://clapmi.test/v1
+    description: Sandbox server (uses test data)
+info:
+  title: ClapMi
+  version: 1.0.0
+tags:
+  - name: posts
+    description: API endpoints for posts
+    externalDocs:
+      url: https://clapmi.test/v1/posts
+paths:
+
+
