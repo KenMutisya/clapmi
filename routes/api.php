@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Jwt\AuthController;
+use App\Http\Controllers\PostsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +20,8 @@ Route::group([
         Route::post('me', [AuthController::class, 'me']);
 
     });
-    Route::post('register', [AuthController::class, 'register']);
 
+    Route::resource('posts', PostsController::class);
 
 });
 
