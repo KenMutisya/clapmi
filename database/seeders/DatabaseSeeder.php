@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
                 'password'  => bcrypt('password'),
                 'user_uuid' => \Str::uuid(),
         ]);
+
+        $this->call(PostSeeder::class,false,[
+                'count' => 500,
+        ]);
     }
 }
