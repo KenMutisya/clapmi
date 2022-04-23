@@ -19,6 +19,10 @@ class CreatePostsTable extends Migration
             $table->string('status')->default(Status::DRAFT->value);
 
             $table->timestamps();
+
+            $table->index([
+                    'title'
+            ]);
         });
     }
 
