@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory()->create([
+        User::factory()->create([
                 'name'      => 'Kennedy Mutisya',
                 'email'     => 'kenmsh@gmail.com',
                 'password'  => bcrypt('password'),
-                'user_uuid' => \Str::uuid(),
+                'user_uuid' => Str::uuid(),
         ]);
 
         $this->call(PostSeeder::class,false,[
