@@ -9,7 +9,9 @@ class PostsController extends Controller
 {
     public function index()
     {
-        //
+        return PostResource::collection(
+                auth('api')->user()?->posts()->get()
+        );
     }
 
     public function create()
