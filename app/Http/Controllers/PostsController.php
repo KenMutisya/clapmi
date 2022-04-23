@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostCreatedEvent;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -19,9 +21,17 @@ class PostsController extends Controller
         //
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Post $post)
     {
-        //
+        $post->title = $request->title;
+        $post->category = $request->category;
+        $post->user_id = auth('api')->user()->id;
+        $post->status = $request->status;
+        $post->save();
+
+        PostCreatedEvent::dispatch($post);
+
+        return new PostResource($post);
     }
 
     public function show(Post $post)
