@@ -49,8 +49,17 @@ class PostsController extends Controller
         //
     }
 
+    /**
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function destroy(Post $post)
     {
-        //
+       $this->authorize('delete', $post);
+
+        $post->delete();
+
+        return response()->json([
+            'message' => 'Post deleted successfully'
+        ]);
     }
 }

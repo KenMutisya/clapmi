@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
@@ -35,9 +36,11 @@ class PostPolicy
         //
     }
 
-    public function delete(User $user, Post $post): bool
+    public function delete(User $user, Post $post)
     {
-        //
+        return (int) $post->user_id === (int) $user->id
+                ? Response::allow("You are Allowed to Delete your own post")
+                : Response::deny('You can only Delete your own posts.');
     }
 
     public function restore(User $user, Post $post): bool
@@ -47,6 +50,6 @@ class PostPolicy
 
     public function forceDelete(User $user, Post $post): bool
     {
-        //
+        return (int) $post->user_id === (int) $user->id;
     }
 }
