@@ -4,6 +4,39 @@ servers:
     description: Production server (uses live data)
   - url: https://clapmi.test/v1
     description: Sandbox server (uses test data)
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        title:
+          type: string
+          example: What is HTML?
+        category:
+          type: string
+          example: HTML
+        user:
+          type: string
+          example: John Doe
+        status:
+          type: string
+          example: published
+      required:
+        - id
+        - title
+        - category
+        - user
+        - status
+security:
+  - BearerAuth: [ ]
 info:
   title: ClapMi
   version: 1.0.0
@@ -13,5 +46,90 @@ tags:
     externalDocs:
       url: https://clapmi.test/v1/posts
 paths:
+  /posts:
+    get:
+      operationId: ListPostsV1
+      summary: List All Posts
+      tags:
+        - posts
+      responses:
+        '200':
+          description: |-
+            A successfull 200 response with the Post Object
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+
+    post:
+      operationId: CreatePostsV1
+      summary: Create a post
+      tags:
+        - posts
+      responses:
+        '200':
+          description: |-
+            A successfull 200 response
+  /posts/{id}:
+
+    get:
+      operationId: ShowAPostV1
+      summary: Show a post
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      tags:
+        - posts
+      responses:
+        '200':
+          description: |-
+            A successfull 200 response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+    patch:
+      operationId: UpdatePostsV1
+      summary: List All Posts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      tags:
+        - posts
+      responses:
+        '200':
+          description: |-
+            A successfull 200 response
+
+    delete:
+      operationId: DeletePostsV1
+      summary: Delete a Post
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+            format: int64
+            example: 1
+      tags:
+        - posts
+      responses:
+        '200':
+          description: |-
+            A successfull 200 response
 
 
