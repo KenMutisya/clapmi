@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class CategoriesController extends Controller
         //
     }
 
-    public function store(Request $request, Category $category)
+    public function store(CreateCategoryRequest $request, Category $category)
     {
         $category->name = $request->name;
         $category->save();
