@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostCreatedEvent;
+use App\Http\Requests\PostCreatedRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Enums\Status;
 use App\Models\Post;
@@ -23,10 +24,10 @@ class PostsController extends Controller
         //
     }
 
-    public function store(Request $request, Post $post)
+    public function store(PostCreatedRequest $request, Post $post)
     {
         $post->title = $request->title;
-        $post->category = $request->category;
+        $post->category_id = $request->category_id;
         $post->user_id = auth('api')->user()->id;
         $post->status = $request->status;
         $post->save();
@@ -51,7 +52,7 @@ class PostsController extends Controller
         $this->authorize('update', $post);
 
         $post->title = $request->title;
-        $post->category = $request->category;
+        $post->category_id = $request->category_id;
         $post->status = Status::PUBLISHED->value;
         $post->save();
 
