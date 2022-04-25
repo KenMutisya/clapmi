@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Str;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
                 'user_uuid' => Str::uuid(),
         ]);
 
-        $this->call(PostSeeder::class,false,[
-                'count' => 500,
-        ]);
+        $this->call(PostSeeder::class);
+
+        $this->call(CategorySeeder::class);
     }
 }
