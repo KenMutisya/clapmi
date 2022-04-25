@@ -31,9 +31,11 @@ class PostPolicy
         //
     }
 
-    public function update(User $user, Post $post): bool
+    public function update(User $user, Post $post): Response
     {
-        //
+        return (int) $post->user_id === (int) $user->id
+                ? Response::allow("You are Allowed to update this post")
+                : Response::deny('You cannot delete this post.');
     }
 
     public function delete(User $user, Post $post)

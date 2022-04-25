@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Events\PostCreatedEvent;
 use App\Http\Resources\PostResource;
+use App\Models\Enums\Status;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use function Illuminate\Events\queueable;
 
 class PostsController extends Controller
 {
@@ -46,7 +48,12 @@ class PostsController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        //
+        $post->title = $request->title;
+        $post->category = $request->category;
+        $post->status = Status::PUBLISHED->value;
+        $post->save();
+
+        return new PostResource($post);
     }
 
     /**
