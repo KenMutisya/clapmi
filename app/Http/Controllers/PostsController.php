@@ -48,6 +48,8 @@ class PostsController extends Controller
 
     public function update(Request $request, Post $post)
     {
+        $this->authorize('update', $post);
+
         $post->title = $request->title;
         $post->category = $request->category;
         $post->status = Status::PUBLISHED->value;
