@@ -41,7 +41,13 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
             'email_verified_at' => 'datetime',
+            'is_admin'          => 'boolean',
     ];
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
 
     public function posts(): HasMany
     {
