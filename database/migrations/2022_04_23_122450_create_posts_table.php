@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Category;
 use App\Models\Enums\Status;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -14,14 +15,14 @@ class CreatePostsTable extends Migration
             $table->id();
 
             $table->string('title');
-            $table->string('category');
+            $table->foreignIdFor(Category::class);
             $table->foreignIdFor(User::class);
             $table->string('status')->default(Status::DRAFT->value);
 
             $table->timestamps();
 
             $table->index([
-                    'title'
+                    'title',
             ]);
         });
     }
