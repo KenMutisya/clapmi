@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use App\Models\Enums\Status;
 use App\Models\Post;
 use App\Models\User;
@@ -16,7 +17,7 @@ class PostFactory extends Factory
     {
         return [
                 'title'      => $this->faker->words(3, true),
-                'category'   => $this->faker->word(),
+                'category_id'   => Category::factory()->create()->id,
                 'user_id'    => User::factory()->create()->id,
                 'status'     => $this->faker->randomElement([
                         Status::DRAFT->value,
