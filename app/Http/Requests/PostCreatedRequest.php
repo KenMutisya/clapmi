@@ -10,7 +10,7 @@ class PostCreatedRequest extends FormRequest
     {
         return [
                 'title'    => ['required','unique:posts,title'],
-                'category' => ['required','exists:categories,name'],
+                'category_id' => ['required','exists:categories,id'],
                 'status'   => ['required'],
         ];
     }
