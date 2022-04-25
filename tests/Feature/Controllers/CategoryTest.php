@@ -77,6 +77,36 @@ class CategoryTest extends TestCase
     }
 
     /** @test */
+    public function it_can_update_categories()
+    {
+        [$user, $token] = $this->userSetup();
+
+        $category = Category::factory()->create();
+
+        $response = $this
+                ->withToken($token)
+                ->patchJson(route('category.update', $category->id), [
+                        'name' => 'New Name',
+                ]);
+
+        $category->refresh();
+
+        $this->assertSame("New Name", $category->name);
+
+        $response->assertJsonStructure([
+                'data' => [
+                        'id',
+                        'name',
+                        'created_at',
+                        'updated_at',
+                ],
+        ]);
+
+        $response->assertStatus(200);
+
+    }
+
+    /** @test */
     public function non_admins_cannot_delete_a_category()
     {
         $user = User::factory()->create(

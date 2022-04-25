@@ -18,7 +18,7 @@ class CategoriesController extends Controller
         //
     }
 
-    public function store(Request $request,Category $category)
+    public function store(Request $request, Category $category)
     {
         $category->name = $request->name;
         $category->save();
@@ -38,7 +38,14 @@ class CategoriesController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        //
+        $this->validate($request, [
+                'name' => 'required|string|max:255',
+        ]);
+
+        $category->name = $request->name;
+        $category->save();
+
+        return new CategoryResource($category);
     }
 
     public function destroy(Category $category)
@@ -48,7 +55,7 @@ class CategoriesController extends Controller
         $category->forceDelete();
 
         return response()->json([
-                'message' => 'Category deleted successfully'
+                'message' => 'Category deleted successfully',
         ]);
     }
 }
