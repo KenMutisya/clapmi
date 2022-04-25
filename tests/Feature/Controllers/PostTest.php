@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers;
 
 use App\Events\PostCreatedEvent;
+use App\Models\Category;
 use App\Models\Enums\Status;
 use App\Models\Post;
 use App\Models\User;
@@ -76,12 +77,14 @@ class PostTest extends TestCase
         [$user, $token] = $this->userSetup();
 
 
+        $category = Category::factory()->create();
+
         $response = $this
                 ->withToken($token)
                 ->postJson(route('posts.store'), [
-                        'title'    => 'Test Post',
-                        'category' => 'Test Category',
-                        'status'   => Status::PUBLISHED->value,
+                        'title'       => 'Test Post',
+                        'category_id' => $category->id,
+                        'status'      => Status::PUBLISHED->value,
 
                 ]);
 
@@ -108,30 +111,30 @@ class PostTest extends TestCase
         [$user, $token] = $this->userSetup();
 
         $post = Post::factory()->create([
-                'title'    => 'Old Title',
-                'category' => 'Old Category',
-                'status'   => Status::DRAFT->value,
-                'user_id'  => $user->id,
+                'title'       => 'Old Title',
+                'category_id' => $categoryId = Category::factory()->create()->id,
+                'status'      => Status::DRAFT->value,
+                'user_id'     => $user->id,
         ]);
 
         $this->assertSame('Old Title', $post->title);
-        $this->assertSame('Old Category', $post->category);
+        $this->assertSame($categoryId, $post->category_id);
         $this->assertSame(Status::DRAFT->value, $post->status);
 
         $response = $this
                 ->withToken($token)
                 ->patchJson(route('posts.update', $post->id), [
-                'title'    => 'Updated Post',
-                'category' => 'New Category',
-                'status'   => Status::PUBLISHED->value,
+                        'title'       => 'Updated Post',
+                        'category_id' => $newCategoryId = Category::factory()->create()->id,
+                        'status'      => Status::PUBLISHED->value,
 
-        ]);
+                ]);
 
         $post->refresh();
 
 
         $this->assertSame('Updated Post', $post->title);
-        $this->assertSame('New Category', $post->category);
+        $this->assertSame($newCategoryId, $post->category_id);
         $this->assertSame(Status::PUBLISHED->value, $post->status);
 
 
@@ -145,18 +148,18 @@ class PostTest extends TestCase
 
         $post = Post::factory()->create([
                 'title'    => 'Old Title',
-                'category' => 'Old Category',
+                'category_id' => $categoryId = Category::factory()->create()->id,
                 'status'   => Status::DRAFT->value,
         ]);
 
         $response = $this
                 ->withToken($token)
                 ->patchJson(route('posts.update', $post->id), [
-                'title'    => 'Updated Post',
-                'category' => 'New Category',
-                'status'   => Status::PUBLISHED->value,
+                        'title'    => 'Updated Post',
+                        'category_id' => $categoryNewId = Category::factory()->create()->id,
+                        'status'   => Status::PUBLISHED->value,
 
-        ]);
+                ]);
 
         $this->assertSame('You cannot update this post.', $response->json('message'));
 
