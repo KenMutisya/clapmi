@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Jwt\AuthController;
 use App\Http\Controllers\PostsController;
 use Illuminate\Http\Request;
@@ -21,7 +22,14 @@ Route::group([
 
     });
 
-    Route::resource('posts', PostsController::class);
+    Route::group(['middleware' => 'jwt.verify'], function () {
+
+        Route::resource('posts', PostsController::class);
+
+        Route::resource('category', CategoriesController::class);
+
+    });
+
 
 });
 

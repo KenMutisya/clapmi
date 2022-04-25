@@ -35,7 +35,9 @@ class PostTest extends TestCase
                 ->count(3)
                 ->create();
 
-        $response = $this->get(route('posts.index'));
+        $response = $this
+                ->withToken($token)
+                ->get(route('posts.index'));
         $response->assertJsonStructure([
                 'data' => [
                         '*' => [
@@ -74,12 +76,14 @@ class PostTest extends TestCase
         [$user, $token] = $this->userSetup();
 
 
-        $response = $this->postJson(route('posts.store'), [
-                'title'    => 'Test Post',
-                'category' => 'Test Category',
-                'status'   => Status::PUBLISHED->value,
+        $response = $this
+                ->withToken($token)
+                ->postJson(route('posts.store'), [
+                        'title'    => 'Test Post',
+                        'category' => 'Test Category',
+                        'status'   => Status::PUBLISHED->value,
 
-        ]);
+                ]);
 
         $response->assertJsonStructure([
                 'data' => [
@@ -114,7 +118,9 @@ class PostTest extends TestCase
         $this->assertSame('Old Category', $post->category);
         $this->assertSame(Status::DRAFT->value, $post->status);
 
-        $response = $this->patchJson(route('posts.update', $post->id), [
+        $response = $this
+                ->withToken($token)
+                ->patchJson(route('posts.update', $post->id), [
                 'title'    => 'Updated Post',
                 'category' => 'New Category',
                 'status'   => Status::PUBLISHED->value,
@@ -143,14 +149,16 @@ class PostTest extends TestCase
                 'status'   => Status::DRAFT->value,
         ]);
 
-        $response = $this->patchJson(route('posts.update', $post->id), [
+        $response = $this
+                ->withToken($token)
+                ->patchJson(route('posts.update', $post->id), [
                 'title'    => 'Updated Post',
                 'category' => 'New Category',
                 'status'   => Status::PUBLISHED->value,
 
         ]);
 
-        $this->assertSame('You cannot update this post.',$response->json('message'));
+        $this->assertSame('You cannot update this post.', $response->json('message'));
 
     }
 
@@ -164,7 +172,9 @@ class PostTest extends TestCase
                 'user_id' => $user->id,
         ]);
 
-        $response = $this->deleteJson(route('posts.destroy', $post->id));
+        $response = $this
+                ->withToken($token)
+                ->deleteJson(route('posts.destroy', $post->id));
         $this->assertSame('Post deleted successfully', $response->json('message'));
     }
 
@@ -175,7 +185,9 @@ class PostTest extends TestCase
 
         $post = Post::factory()->create();
 
-        $response = $this->deleteJson(route('posts.destroy', $post->id));
+        $response = $this
+                ->withToken($token)
+                ->deleteJson(route('posts.destroy', $post->id));
 
         $this->assertSame('You can only Delete your own posts.', $response->json('message'));
     }
